@@ -1,19 +1,16 @@
 #combine diffirent movement states to creat autonomous
 
 #import libaries
-from basicmovement import Movementsubsystem
+from basicmovement import Basic_movement
 from servo import Servo
 import time
 from 
 
 
-#define left motor
-left_motor = Movementsubsystem()
-
-#define right motor
-right_motor = Movementsubsystem()
 
 #define forward facing ultrasonic sensor
 
 #define right facing ultrasonic sensor
 
+#combine functions to work with ultrasonic sensor
+#use sleep and if else in a loop

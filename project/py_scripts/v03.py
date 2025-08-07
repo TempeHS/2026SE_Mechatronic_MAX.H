@@ -34,6 +34,7 @@ my_servo = Servo(
 
 
 while True:
+    print("running")
     # manually set the servo duty time
     my_servo.set_duty(500)
     time.sleep(2)
