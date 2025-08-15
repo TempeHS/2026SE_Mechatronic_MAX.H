@@ -6,8 +6,8 @@ from PiicoDev_Unified import sleep_ms
 
 class Basic_movement(Servo):
     def __init__(self, Right_servo, Left_servo):
-        self.__Left_servo = Servo(pwm=20, min_us=500, max_us=2500, dead_zone_us=1500, freq=50)
-        self.__Right_servo = Servo(pwm=16, min_us=500, max_us=2500, dead_zone_us=1500, freq=50)
+        self.__Left_servo = Servo(pwm=20)
+        self.__Right_servo = Servo(pwm=16)
 
     def Stop(self):
         self.__Right_servo.set_duty(1500)
@@ -52,35 +52,42 @@ class Ultra_sensor_states(PiicoDev_Ultrasonic):
     
 
 class Check_colour():
-    def __init__(self, ):
+    def __init__(self):
         ...
 
 
-class Combined_movement(Basic_movement, Ultra_sensor_states, sleep_ms):
-    #checkl controller for states
-    def __init__(self, last_forward_distance, last_right_distance, state):
+class Combined_movement(Basic_movement, Ultra_sensor_states, Servo, PiicoDev_Ultrasonic):
+    def __init__(self):
         self.__state = "idle"
-        self.last_forward_distance = int(Ultra_sensor_states.check_forward(self))
-        self.last_right_distance = int(Ultra_sensor_states.check_right(self))
+        ultrasonic = Ultra_sensor_states(
+            range_a=PiicoDev_Ultrasonic(id=[0, 0, 0, 0]),
+            range_b=PiicoDev_Ultrasonic(id=[1, 0, 0, 0]) 
+            )
+        movement = Basic_movement(
+            Right_servo=Servo(pwm=16,),
+            Left_servo=Servo(pwm=20,)
+            )
+        self.last_forward_distance = int(ultrasonic.check_forward())
+        self.last_right_distance = int(ultrasonic.check_right())
 
     def set_Idle(self):
         print("IDLE")
-        Basic_movement.Stop
+        self.movement.Stop
         self.__state = "idle"
 
     def set_Forward(self):
         print("FORWARD")
-        Basic_movement.basic_forward
+        self.movement.basic_forward
         self.__state = "forward"
             
     def set_Right(self):
         print("RIGHT")
-        Basic_movement.Turn_right
+        self.movement.Turn_right
         self.__state = "right"
 
     def set_Left(self):
         print("LEFT")
-        Basic_movement.Turn_left
+        self.movement.Turn_left
         self.__state = "left"
 
     def Run(self):
@@ -117,5 +124,6 @@ class debug(Ultra_sensor_states, Check_colour, Basic_movement):
         #
         ...
 
+controller = Combined_movement()
 while True:
-    Combined_movement.Run(self)
+    controller.Run()
