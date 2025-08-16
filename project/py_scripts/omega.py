@@ -53,7 +53,7 @@ class Ultra_sensor_states(PiicoDev_Ultrasonic):
 
 class Check_colour():
     def __init__(self):
-        ...
+        
 
 
 class Combined_movement(Basic_movement, Ultra_sensor_states, Servo, PiicoDev_Ultrasonic):
