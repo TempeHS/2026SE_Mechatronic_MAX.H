@@ -3,6 +3,8 @@ from PiicoDev_Ultrasonic import PiicoDev_Ultrasonic
 from servo import Servo
 from PID_Controller import PIDControl
 from PiicoDev_Unified import sleep_ms
+from PiicoDev_VEML6040  import PiicoDev_VEML6040
+
 
 class Basic_movement(Servo):
     def __init__(self, Right_servo, Left_servo):
@@ -51,9 +53,14 @@ class Ultra_sensor_states(PiicoDev_Ultrasonic):
         return int(self.__range_b.distance_mm)
     
 
-class Check_colour():
+class Check_colour(PiicoDev_VEML6040):
     def __init__(self):
-        
+        self.colourSensor = PiicoDev_VEML6040()
+        self.green = 120
+    
+    def is_green(self):
+        self.Col_det
+                
 
 
 class Combined_movement(Basic_movement, Ultra_sensor_states, Servo, PiicoDev_Ultrasonic):
