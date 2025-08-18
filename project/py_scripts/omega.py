@@ -7,7 +7,7 @@ from PiicoDev_VEML6040  import PiicoDev_VEML6040
 
 
 class Basic_movement(Servo):
-    def __init__(self, Right_servo, Left_servo):
+    def __init__(self):
         self.__Left_servo = Servo(pwm=20)
         self.__Right_servo = Servo(pwm=16)
 
@@ -57,9 +57,11 @@ class Check_colour(PiicoDev_VEML6040):
     def __init__(self):
         self.colourSensor = PiicoDev_VEML6040()
         self.green = 120
+        self.RGB = self.colourSensor.readRGB()
     
     def is_green(self):
-        self.Col_det
+        self.colourSensor.readRGB()
+        ...
                 
 
 
