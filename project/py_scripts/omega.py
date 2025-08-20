@@ -2,12 +2,13 @@ from PiicoDev_Ultrasonic import PiicoDev_Ultrasonic
 from servo import Servo
 from PiicoDev_Unified import sleep_ms
 from PiicoDev_VEML6040  import PiicoDev_VEML6040
+from machine import PWM, Pin
 
 #(Servo)
 class Basic_movement:
     def __init__(self, Left_servo, Right_servo):
-        self.__Left_servo = Left_servo
-        self.__Right_servo = Right_servo
+        self.__Left_servo = Servo(Left_servo)
+        self.__Right_servo = Servo(Right_servo)
 
     def Stop(self):
         self.__Right_servo.set_duty(1500)
@@ -23,20 +24,20 @@ class Basic_movement:
 
     #use with caution
     def Basic_backward(self):
+        self.__Right_servo.set_duty(2000)
+        self.__Left_servo.set_duty(2000)
+
+    def basic_forward(self):
         self.__Right_servo.set_duty(1000)
         self.__Left_servo.set_duty(1000)
 
-    def basic_forward(self):
-        self.__Right_servo.set_duty(2000)
-        self.__Left_servo.set_duty(2000)
+    # def right_forward(self):
+    #     self.__Right_servo.set_duty(1800)
+    #     self.__Left_servo.set_duty(2000)
 
-    def right_forward(self):
-        self.__Right_servo.set_duty(1800)
-        self.__Left_servo.set_duty(2000)
-
-    def left_forward(self):
-        self.__Right_servo.set_duty(2000)
-        self.__Left_servo.set_duty(1800)
+    # def left_forward(self):
+    #     self.__Right_servo.set_duty(2000)
+    #     self.__Left_servo.set_duty(1800)
 
 #(PiicoDev_Ultrasonic)
 class Ultra_sensor_states:
@@ -70,7 +71,7 @@ class Combined_movement:
             range_a=PiicoDev_Ultrasonic(id=[0, 0, 0, 0]),
             range_b=PiicoDev_Ultrasonic(id=[1, 0, 0, 0]) 
             )
-        self.movement = Basic_movement(Servo(pwm=16), Servo(pwm=20))
+        self.movement = Basic_movement(PWM(Pin(16)), PWM(Pin(20)))
         self.last_forward_distance = int(self.ultrasonic.check_forward())
         self.last_right_distance = int(self.ultrasonic.check_right())
 
