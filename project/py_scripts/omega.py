@@ -15,21 +15,21 @@ class Basic_movement:
         self.__Left_servo.set_duty(1500)
 
     def Turn_right(self):
-        self.__Right_servo.set_duty(2000)
-        self.__Left_servo.set_duty(1500)
-
-    def Turn_left(self):
         self.__Right_servo.set_duty(1500)
         self.__Left_servo.set_duty(2000)
+
+    def Turn_left(self):
+        self.__Right_servo.set_duty(1000)
+        self.__Left_servo.set_duty(1500)
 
     #use with caution
     def Basic_backward(self):
         self.__Right_servo.set_duty(2000)
-        self.__Left_servo.set_duty(2000)
+        self.__Left_servo.set_duty()
 
     def basic_forward(self):
         self.__Right_servo.set_duty(1000)
-        self.__Left_servo.set_duty(1000)
+        self.__Left_servo.set_duty(2000)
 
     # def right_forward(self):
     #     self.__Right_servo.set_duty(1800)
@@ -58,7 +58,7 @@ class Check_colour:
         self.data = self.colourSensor.readHSV()
         self.hue = self.data['hue']
     def Green(self):
-        if 80 < self.hue < 175:
+        if 0 < self.hue < 1750:
             print("oh no a person")
             return True
         return False
@@ -73,8 +73,8 @@ class Combined_movement:
             range_b=PiicoDev_Ultrasonic(id=[1, 0, 0, 0]) 
             )
         self.movement = Basic_movement(PWM(Pin(16)), PWM(Pin(20)))
-        self.last_forward_distance = int(self.ultrasonic.check_forward())
-        self.last_right_distance = int(self.ultrasonic.check_right())
+        self.last_forward_distance = int(self.ultrasonic.check_right())
+        self.last_right_distance = int(self.ultrasonic.check_forward())
         self.coloursensor = Check_colour(PiicoDev_VEML6040())
 
     def set_dead(self):
@@ -117,23 +117,24 @@ class Combined_movement:
         elif self.__state == "forward":
             self.set_Forward()
 
-            if forward_distance < 100:
-                if right_distance < 100:
-                    self.set_Left()
-                else:
-                    self.set_Right()
-            else:
-                self.set_Forward()
+            if forward_distance < 100 and right_distance < 100:
+                self.set_Right()
+                # sleep_ms(2000)
 
-            if self.coloursensor.Green():
+            elif right_distance < 100:
+                self.set_Left()
+                # sleep_ms(2000)
+
+            elif self.coloursensor.Green():
                 self.set_dead()
                 sleep_ms(2000)
                 self.set_Forward() 
+
             else:
                 self.set_Forward()
         else:
             self.set_Idle()
-            print("broken")
+            print("broken, one sec")
 
 
 # class debug(Ultra_sensor_states, Check_colour, Basic_movement):
