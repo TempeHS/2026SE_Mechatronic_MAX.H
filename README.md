@@ -1,52 +1,49 @@
 # Project Title
 
-Simple overview of use/purpose.
+Simple OOP based, wall following robot
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+This project is a prototype design using OOP based coding. the objective was to create a simple robot that could follow walls and detect colours. Inside are several classes with multilayer inheretance.
 
 ## Getting Started
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+at least windows 10
+python
+libaries: - servo.py - piccodev_veml6040.py - piccodev_ultrasonic.py -
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+no modifcations need to be made to run the file so long as all files stay within their assigned directories.
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
+connect robot to computer
+initialize connection
+soft reset
+upload project folder to robot
+run omega.py
+and the robot should run until the power runs out
 
 ## Help
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+issues may arrise in the case of a floating doorway where the robot is stuck on one side of it, this is due to not have sensor on both sides and cannot be helped through simple methods.
 
 ## Authors
 
-Contributors names and contact info
+Max.Higginson
+@sphisi (https://github.com/sphisi)
 
 ex. Mr Jones
 ex. [@benpaddlejones](https://github.com/benpaddlejones)
 
 ## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]() or see [branch]()
-* 0.1
-    * Initial Release
+0.0.1
+inital changes
+0.0.2 - 0.1.3
 
 ## License
 
@@ -55,5 +52,6 @@ This project is licensed under the [NAME HERE] License - see the LICENSE.md file
 ## Acknowledgments
 
 Inspiration, code snippets, etc.
-* [Github md syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-* [TempeHS MicroPython template](https://github.com/TempeHS/TempeHS_MicroPython_DevContainer)
+
+- [Github md syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+- [TempeHS MicroPython template](https://github.com/TempeHS/TempeHS_MicroPython_DevContainer)
