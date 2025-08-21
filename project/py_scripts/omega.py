@@ -55,10 +55,9 @@ class Ultra_sensor_states:
 class Check_colour:
     def __init__(self, colourSensor):
         self.colourSensor = colourSensor
-    
-    def Green(self):
         self.data = self.colourSensor.readHSV()
         self.hue = self.data['hue']
+    def Green(self):
         if 80 < self.hue < 175:
             print("oh no a person")
             return True

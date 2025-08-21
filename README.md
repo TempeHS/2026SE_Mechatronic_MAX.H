@@ -29,6 +29,8 @@ and the robot should run until the power runs out
 
 ## Help
 
+there are unit tests to diagnose problems regarding the ultrasonic sensors, servo/basicmovement, colour sensor
+
 issues may arrise in the case of a floating doorway where the robot is stuck on one side of it, this is due to not have sensor on both sides and cannot be helped through simple methods.
 
 ## Authors
@@ -44,14 +46,16 @@ ex. [@benpaddlejones](https://github.com/benpaddlejones)
 0.0.1
 inital changes
 0.0.2 - 0.1.3
+more changes and finished product
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the [GNU GENERAL PUBLIC LICENSE ] License - see the LICENSE.md file for details
 
 ## Acknowledgments
 
 Inspiration, code snippets, etc.
+thank you Mr Jones
 
 - [Github md syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - [TempeHS MicroPython template](https://github.com/TempeHS/TempeHS_MicroPython_DevContainer)
