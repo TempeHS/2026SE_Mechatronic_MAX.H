@@ -3,6 +3,7 @@ from servo import Servo
 from PiicoDev_Unified import sleep_ms
 from PiicoDev_VEML6040  import PiicoDev_VEML6040
 from machine import PWM, Pin
+from PiicoDev_SSD1306 import *
 
 #(Servo)
 class Basic_movement:
@@ -25,7 +26,7 @@ class Basic_movement:
     #use with caution
     def Basic_backward(self):
         self.__Right_servo.set_duty(2000)
-        self.__Left_servo.set_duty()
+        self.__Left_servo.set_duty(1000)
 
     def basic_forward(self):
         self.__Right_servo.set_duty(1000)
@@ -55,9 +56,10 @@ class Ultra_sensor_states:
 class Check_colour:
     def __init__(self, colourSensor):
         self.colourSensor = colourSensor
+        
+    def Green(self):
         self.data = self.colourSensor.readHSV()
         self.hue = self.data['hue']
-    def Green(self):
         if 80 < self.hue < 100:
             print("oh no a person")
             return True
@@ -66,8 +68,9 @@ class Check_colour:
 
 #(Basic_movement, Ultra_sensor_states, Servo, PiicoDev_Ultrasonic)
 class Combined_movement:
-    def __init__(self,):
+    def __init__(self, lcd):
         self.__state = "idle"
+        self.__lcd = lcd
         self.ultrasonic = Ultra_sensor_states(
             range_a=PiicoDev_Ultrasonic(id=[0, 0, 0, 0]),
             range_b=PiicoDev_Ultrasonic(id=[1, 0, 0, 0]) 
@@ -116,57 +119,42 @@ class Combined_movement:
 
         elif self.__state == "forward":
             self.set_Forward()
-
+            
             if forward_distance < 100 and right_distance < 100:
                 self.set_Right()
-                sleep_ms(990)
+                
 
-            elif right_distance < 100:
-                self.set_Left()
-                sleep_ms(990)
+            elif forward_distance < 100:
+                sleep_ms(555)
+                self.set_Forward()
+            
 
             elif self.coloursensor.Green():
                 self.set_dead()
-                sleep_ms(2000)
                 self.set_Forward() 
 
             else:
-                self.set_Forward()
+                self.set_Left()
         
-        # elif self.__state == "left":
-        #     ...
-        # elif self.__state == "right"
-
+        elif self.__state == "left":
+            self.set_Left()
+            sleep_ms(1100)
+            self.set_Forward()
+        elif self.__state == "right":
+            self.set_Right()
+            sleep_ms(1100)
+            self.set_Forward()
         else:
             self.set_Idle()
             print("broken, one sec")
 
+        self.__lcd.fill(0)
+        self.__lcd.text(self.__state, 30, 20, 1)
+        self.__lcd.show()
 
-# class debug(Ultra_sensor_states, Check_colour, Basic_movement):
-#     def __init__(self, state):
-#         self.state = state
-        
+display = create_PiicoDev_SSD1306()
+controller = Combined_movement(display)
 
-    # def debug_ultra_sensor(self):
-    #     sensor = Ultra_sensor_states(
-    #     range_a=PiicoDev_Ultrasonic(id=[0, 0, 0, 0]),
-    #     range_b=PiicoDev_Ultrasonic(id=[1, 0, 0, 0])
-    #     )
-    #     while True:
-    #         print("forward:", sensor.check_forward())
-    #         sleep_ms(5)
-    #         print("right:", sensor.check_right())
-    #         sleep_ms(5)
-    
-    # def debug_colour(self):
-    #     while True:
-    #         #check colour, red green blue in sequence while broadcasting
-    #         ...
-
-    # def debug_movement(self):
-    #
-    #     ...
-
-controller = Combined_movement()
 while True:
     controller.Run()
+    sleep_ms(100)
