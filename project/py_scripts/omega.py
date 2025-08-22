@@ -58,7 +58,7 @@ class Check_colour:
         self.data = self.colourSensor.readHSV()
         self.hue = self.data['hue']
     def Green(self):
-        if 0 < self.hue < 1750:
+        if 80 < self.hue < 100:
             print("oh no a person")
             return True
         return False
@@ -73,8 +73,8 @@ class Combined_movement:
             range_b=PiicoDev_Ultrasonic(id=[1, 0, 0, 0]) 
             )
         self.movement = Basic_movement(PWM(Pin(16)), PWM(Pin(20)))
-        self.last_forward_distance = int(self.ultrasonic.check_right())
-        self.last_right_distance = int(self.ultrasonic.check_forward())
+        self.last_forward_distance = int(self.ultrasonic.check_forward())
+        self.last_right_distance = int(self.ultrasonic.check_right())
         self.coloursensor = Check_colour(PiicoDev_VEML6040())
 
     def set_dead(self):
@@ -119,11 +119,11 @@ class Combined_movement:
 
             if forward_distance < 100 and right_distance < 100:
                 self.set_Right()
-                # sleep_ms(2000)
+                sleep_ms(990)
 
             elif right_distance < 100:
                 self.set_Left()
-                # sleep_ms(2000)
+                sleep_ms(990)
 
             elif self.coloursensor.Green():
                 self.set_dead()
@@ -132,6 +132,11 @@ class Combined_movement:
 
             else:
                 self.set_Forward()
+        
+        # elif self.__state == "left":
+        #     ...
+        # elif self.__state == "right"
+
         else:
             self.set_Idle()
             print("broken, one sec")

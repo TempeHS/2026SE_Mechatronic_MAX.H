@@ -11,8 +11,7 @@ This project is a prototype design using OOP based coding. the objective was to 
 ### Dependencies
 
 at least windows 10
-python
-libaries: - servo.py - piccodev_veml6040.py - piccodev_ultrasonic.py -
+pythonlibaries: - servo.py - piccodev_veml6040.py - piccodev_ultrasonic.py -
 
 ### Installing
 
